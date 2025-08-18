@@ -25,23 +25,27 @@ const items = [
 
 export function FloatingDockDemo() {
   const links = [
-    { title: "GitHub", icon: <IconBrandGithub />, href: "https://github.com/…" },
-    { title: "LinkedIn", icon: <IconBrandLinkedin />, href: "https://linkedin.com/…" },
-    { title: "Facebook", icon: <IconBrandFacebook />, href: "https://facebook.com/…" },
+    { title: "GitHub", icon: <IconBrandGithub />, href: "https://github.com/..." },
+    { title: "LinkedIn", icon: <IconBrandLinkedin />, href: "https://linkedin.com/..." },
+    { title: "Facebook", icon: <IconBrandFacebook />, href: "https://facebook.com/..." },
   ];
+
   return (
-   <div className="mt-6 w-full flex justify-center">
-    <div className="translate-x-[-40px]">
-        <FloatingDock
-        items={links.map(link => ({
-            ...link,
-            icon: React.cloneElement(link.icon, {
-            className: "text-white opacity-80 hover:opacity-100 transition",
-            }),
-        }))}
-        mobileClassName="translate-y-4"
-        />
-    </div>
+    <div className="flex gap-3 mt-6">
+      {links.map((link, index) => (
+        <a
+          key={index}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-[#0e0e10]/70 border border-gray-600 shadow-md hover:scale-105 transition-all duration-150"
+        >
+          {React.cloneElement(link.icon, {
+            className: "w-5 h-5 text-slate-200",
+          })}
+        </a>
+      ))}
     </div>
   );
 }
+

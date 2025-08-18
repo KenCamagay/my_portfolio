@@ -7,7 +7,7 @@ import TechStackHover from '@/components/TechStackHover';
 import { FloatingDockDemo } from "@/components/FloatingDock";
 export default function Hero() {
   return (
-    <section className="min-h-screen flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-10 px-6 sm:px-10 md:px-20 py-8 md:py-12 bg-gradient-to-br from-gray-900 to-black text-white">
+    <section  id="about" className="min-h-screen flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-10 px-6 sm:px-10 md:px-20 py-8 md:py-12 bg-gradient-to-br from-gray-900 to-black text-white">
       
       {/* LEFT SIDE - text */}
       <div className="w-full md:w-1/2 max-w-xl space-y-6 text-center md:text-left">
@@ -32,9 +32,6 @@ export default function Hero() {
           direction="top"
           className="text-lg md:text-xl text-gray-300 max-w-xl"
         />
-
-        {/* Tech Stack */}
-        <TechStackHover />
 
         {/* Social Links */}
         <section className="relative pb-">

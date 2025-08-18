@@ -5,7 +5,7 @@ import { NavbarDemo } from '@/components/Navbar';
 import Galaxy from '@/components/Galaxy';
 import Hero from '@/components/Hero';
 const inter = Inter({ subsets: ['latin'] });
-
+import PageContainer from "@/components/PageContainer";
 export const metadata = {
   title: 'My Portfolio',
   description: 'Showcasing my work',
@@ -18,9 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-     <body className={cn("m-0 p-0", inter.className)}>
+    <body className={cn("bg-black text-white m-0 p-0", inter.className)}>
         <main className="relative z-10 min-h-screen flex flex-col">
-         <NavbarDemo />
           {children}
         </main>
       </body>
