@@ -4,10 +4,10 @@ import ScrollFloatTitle from "@/components/ui/ScrollFloatTitle";
 
 export default function ProjectsGrid() {
   return (
-    <section id="work" className="py-20">
+    <section id="projects" className="scroll-mt-24 py-20">
       <div className="max-w-full px-12">
         <div className="mb-20 flex items-end justify-between">
-          <ScrollFloatTitle text="Selected Work" className="text-4xl font-bold" />
+          <ScrollFloatTitle text="Projects" className="text-4xl font-bold" />
           <a
             href="https://github.com/KenCamagay"
             target="_blank"
@@ -18,7 +18,7 @@ export default function ProjectsGrid() {
           </a>
         </div>
 
-        <div className="space-y-40"> {/* more vertical spacing */}
+        <div className="space-y-36 md:space-y-40">
           {projects.map((p, i) => (
             <div
               key={p.title}

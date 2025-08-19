@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Badge from "@/components/ui/Badge";
-import SplitText from "@/components/SplitText";
 import type { Project } from "@/data/projects";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
@@ -18,7 +17,16 @@ export default function ProjectRow({ p, reversed }: { p: Project; reversed?: boo
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0.35, y: 16 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`grid gap-8 md:gap-16 items-center md:grid-cols-2 w-full max-w-6xl`} // bigger width + gap
+      className={[
+        "grid items-center md:grid-cols-2 w-full",
+        "gap-8 md:gap-12",
+        "max-w-[1600px] px-12",
+        // poke outward on large screens; neutral on mobile
+        reversed
+          ? "md:translate-x-[20px] lg:translate-x-[40px] xl:translate-x-[56px]"
+          : "md:-translate-x-[20px] lg:-translate-x-[40px] xl:-translate-x-[56px]",
+        "will-change-transform"
+      ].join(" ")}
     >
       {/* Image */}
       <div
@@ -38,7 +46,7 @@ export default function ProjectRow({ p, reversed }: { p: Project; reversed?: boo
       </div>
 
       {/* Text */}
-      <div className={`${reversed ? "md:order-1" : ""}`}>
+      <div className={reversed ? "md:order-1" : ""}>
         <Badge>{p.tag}</Badge>
         <h3 className="mt-4 text-3xl font-semibold">{p.title}</h3>
         <p className="mt-4 text-white/70 leading-relaxed text-lg">{p.description}</p>

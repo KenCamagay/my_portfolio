@@ -14,8 +14,6 @@ type Props = {
 
 export default function ProjectCard({ p, priorityImage, className = "" }: Props) {
   const [imgLoaded, setImgLoaded] = useState(false);
-
-  // Prefer a single primary link: "live" > "repo" > "#"
   const primaryHref = p.live ?? p.repo ?? "#";
   const isClickable = primaryHref !== "#";
 
@@ -34,16 +32,7 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
       <div className="rounded-2xl">{children}</div>
     );
 
-  // Inner action element: avoid nested <a> when outer is a link
-  function Action({
-    href,
-    label,
-    children,
-  }: {
-    href: string;
-    label: string;
-    children: React.ReactNode;
-  }) {
+  function Action({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
     if (isClickable) {
       return (
         <button
@@ -61,13 +50,7 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
       );
     }
     return (
-      <Link
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className="underline hover:opacity-80"
-        aria-label={label}
-      >
+      <Link href={href} target="_blank" rel="noreferrer" className="underline hover:opacity-80" aria-label={label}>
         {children}
       </Link>
     );
@@ -75,11 +58,27 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition hover:border-white/20 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.08)] ${className}`}
+      className={[
+        // glassy bento look (inline, no @apply)
+        "group relative overflow-hidden rounded-2xl md:rounded-[28px]",
+        "border border-white/10",
+        "bg-[radial-gradient(800px_400px_at_-10%_-10%,rgba(255,255,255,0.08),transparent),linear-gradient(to_bottom,rgba(255,255,255,0.06),rgba(255,255,255,0.03))]",
+        "backdrop-blur",
+        "shadow-[0_1px_0_rgba(255,255,255,0.08),0_20px_60px_-20px_rgba(0,0,0,0.5)]",
+        "transition-transform duration-300 will-change-transform hover:-translate-y-[3px]",
+        "hover:shadow-[0_1px_0_rgba(255,255,255,0.1),0_28px_80px_-28px_rgba(0,0,0,0.6)]",
+        className,
+      ].join(" ")}
     >
+      {/* shine sweep */}
+      <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl md:rounded-[28px]">
+        <span className="absolute -inset-y-10 -left-1/3 w-1/2 rotate-12 bg-gradient-to-r from-white/0 via-white/10 to-white/0 blur-xl animate-[shine_3.5s_linear_infinite]" />
+      </span>
+
       <CardWrapper>
         {/* Image */}
-        <div className="relative aspect-[3/2] w-full overflow-hidden bg-white/5">
+        <div className="relative aspect-[3/2] w-full overflow-hidden">
+          <div className="absolute inset-0 rounded-2xl md:rounded-[28px] ring-0 ring-white/0 transition-all duration-300 group-hover:ring-1 group-hover:ring-white/10 pointer-events-none" />
           {p.image && (
             <Image
               src={p.image}
@@ -94,7 +93,7 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
             />
           )}
           {!imgLoaded && <div className="absolute inset-0 animate-pulse bg-white/10" />}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 via-black/20 to-transparent" />
         </div>
 
         {/* Content */}
@@ -104,7 +103,6 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
           </div>
 
           <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
-
           <p className="mt-2 text-sm text-white/70">{p.description}</p>
 
           <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
@@ -115,7 +113,6 @@ export default function ProjectCard({ p, priorityImage, className = "" }: Props)
             ))}
           </div>
 
-          {/* Actions: NEVER render <a> inside the outer <a> */}
           <div className="mt-5 flex flex-wrap items-center gap-4 text-sm">
             {p.live && (
               <Action href={p.live} label={`${p.title} live demo`}>
