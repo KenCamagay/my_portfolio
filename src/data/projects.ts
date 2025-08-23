@@ -35,7 +35,7 @@ export const projects: Project[] = [
       "A school supplies ordering platform supporting local businesses, with a web app for secure orders and a mobile app for tracking and sales monitoring.",
     tech: ["PHP", "CSS, JS"],
     image: "/projects/ladon.png",
-    repo: "https://github.com/Narvaskristian08/ladon-webservice"
+    repo: "https://github.com/KenCamagay/Ladon-Webservice"
   },
   {
     title: "DaguDorms (Booking Website)",

@@ -8,22 +8,44 @@ export default function ContactSection() {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { margin: "-20% 0px -20% 0px" });
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
-    const form = e.currentTarget;
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
-    const company = (form.elements.namedItem("company") as HTMLInputElement).value; // honeypot
-    if (company) return setStatus("error");
+async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  setStatus("sending");
 
-    window.location.href = `mailto:you@yourdomain.com?subject=Portfolio inquiry from ${encodeURIComponent(
-      name
-    )}&body=${encodeURIComponent(message + "\n\nFrom: " + email)}`;
+  const form = e.currentTarget;
+  const payload = {
+    name: (form.elements.namedItem("name") as HTMLInputElement).value,
+    email: (form.elements.namedItem("email") as HTMLInputElement).value,
+    message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    company: (form.elements.namedItem("company") as HTMLInputElement).value,
+  };
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    // Try JSON, fall back to text so we see any error
+    let data: any = {};
+    const text = await res.text();
+    try { data = JSON.parse(text); } catch { data = { raw: text }; }
+
+    if (!res.ok) {
+      console.error("Contact failed:", { status: res.status, data });
+      throw new Error(data?.error || `HTTP ${res.status}`);
+    }
+
     setStatus("sent");
     form.reset();
+  } catch (err) {
+    console.error(err);
+    setStatus("error");
   }
+}
+
+
 
   // shared transitions
   const t = { duration: 0.6, ease: "easeOut" };
@@ -51,7 +73,7 @@ export default function ContactSection() {
         md:grid-cols-2 
         md:gap-12 
         lg:gap-20 
-        xl:gap-28
+        xl:gap-38
     "
     >
 
