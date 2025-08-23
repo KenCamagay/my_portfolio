@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Badge from "@/components/ui/Badge";
+import Meteors from "@/components/ui/meteors"; 
 import type { Project } from "@/data/projects";
 import { useState } from "react";
 

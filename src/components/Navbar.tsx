@@ -11,12 +11,14 @@ import {
   MobileNavMenu,
 } from "../components/ui/resizable-navbar";
 import { useState } from "react";
-import AnimatedContent from './AnimatedContent'
-import Hero from '../components/Hero';
+import AnimatedContent from "./AnimatedContent";
+import Hero from "../components/Hero";
+
 export function NavbarDemo() {
   const navItems = [
-     { name: "About", link: "#about", id: "about" },
-    { name: "Projects", link: "#projects", id: "projects" },
+    { name: "About", link: "#about", id: "about" },
+    { name: "Projects", link: "#projects", id: "projects" }, 
+    { name: "Skills", link: "#skills", id: "skills" },
     { name: "Contact", link: "#contact", id: "contact" },
   ];
 
@@ -55,5 +57,3 @@ export function NavbarDemo() {
     </div>
   );
 }
-
-
