@@ -18,32 +18,42 @@ export default function ProjectRow({ p, reversed }: { p: Project; reversed?: boo
   return (
     <motion.div
       ref={rowRef}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0.35, y: 16 }}
+      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0.4, y: 12, scale: 0.995 }}
       transition={{ duration: 0.55, ease: "easeOut" }}
       className="relative w-full max-w-[1600px] px-6 md:px-12 py-8 md:py-12 rounded-2xl md:rounded-[32px] overflow-hidden border border-white/10 backdrop-blur shadow-[0_1px_0_rgba(255,255,255,0.08),0_30px_80px_-30px_rgba(0,0,0,0.6)]"
     >
-      {/* 🔥 Animated background gradient */}
+      {/* === BG that syncs with inView === */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] bg-[radial-gradient(900px_500px_at_0%_0%,rgba(255,255,255,0.07),transparent),linear-gradient(to_bottom,rgba(255,255,255,0.06),rgba(255,255,255,0.025))]"
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+        className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px]"
+        initial={{ opacity: 0, scale: 0.98, backgroundPosition: "0% 0%" }}
+        animate={
+          inView
+            ? { opacity: 1, scale: 1, backgroundPosition: "100% 100%" }
+            : { opacity: 0.6, scale: 0.995, backgroundPosition: "0% 0%" }
+        }
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        style={{
+          backgroundImage:
+            "radial-gradient(900px 500px at 0% 0%, rgba(255,255,255,0.07), transparent), linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
+          backgroundSize: "200% 200%",
         }}
-        transition={{
-          duration: 18,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-        style={{ backgroundSize: "200% 200%" }}
       />
 
-      {/* shine sweep across whole row */}
-      <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl md:rounded-[32px]">
-        <span className="absolute -inset-y-10 -left-1/3 w-1/2 rotate-12 
-          bg-gradient-to-r from-white/0 via-white/10 to-white/0 blur-xl 
-          animate-[shine_5s_linear_infinite]" />
-      </span>
+      {/* Shine sweep across row (runs only when visible) */}
+      <motion.span
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl md:rounded-[32px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: inView ? 1 : 0.5 }}
+        transition={{ duration: 0.4 }}
+      >
+        <motion.span
+          className="absolute -inset-y-10 -left-1/3 w-1/2 rotate-12 bg-gradient-to-r from-white/0 via-white/10 to-white/0 blur-xl"
+          animate={{ x: inView ? ["-20%", "140%"] : "-20%" }}
+          transition={{ duration: 5, ease: "linear", repeat: inView ? Infinity : 0 }}
+        />
+      </motion.span>
 
       {/* Inner grid */}
       <div
